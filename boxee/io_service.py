@@ -1,11 +1,14 @@
 import gobject
 from random import randint
+from exceptions import InvalidValueLengthException, FailedException
 import boxee
+
 
 __author__ = 'tamas'
 
 import dbus.service
 from core import Service, Characteristic, CharacteristicUserDescriptionDescriptor
+
 
 class AutomationIOService(Service):
     """
@@ -32,11 +35,28 @@ class AutIODigitalChrc(Characteristic):
         Characteristic.__init__(
             self, bus, index,
             self.AUT_IO_DIG_CHRC_UUID,
-            ['notify', 'reliable-write'],
+            ['write', 'notify', 'reliable-write'],
             service)
         self.notifying = False
         self.add_descriptor(CharacteristicUserDescriptionDescriptor(bus, 1, self, "Automation Digital IO"))
         self.hr_ee_count = 0
+
+    def WriteValue(self, value):
+        print('Automation IO digital WriteValue called')
+        print('Value is: %s' % value)
+        """
+        if len(value) != 1:
+            raise InvalidValueLengthException()
+
+        byte = value[0]
+        print('Control Point value: ' + repr(byte))
+
+        if byte != 1:
+            raise FailedException("0x80")
+
+        print('Energy Expended field reset!')
+        self.service.energy_expended = 0
+        """
 
     def hr_msrmt_cb(self):
         value = []

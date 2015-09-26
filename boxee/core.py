@@ -3,6 +3,7 @@ import dbus.service
 import dbus
 import dbus.exceptions
 import array
+from exceptions import InvalidArgsException, NotSupportedException, NotPermittedException
 
 BLUEZ_SERVICE_NAME = 'org.bluez'
 GATT_MGR_IFACE = 'org.bluez.GattManager1'
@@ -17,29 +18,13 @@ GATT_CHRC_IFACE = 'org.bluez.GattCharacteristic1'
 GATT_DESC_IFACE = 'org.bluez.GattDescriptor1'
 
 
-class InvalidArgsException(dbus.exceptions.DBusException):
-    _dbus_error_name = 'org.freedesktop.DBus.Error.InvalidArgs'
-
-
-class NotSupportedException(dbus.exceptions.DBusException):
-    _dbus_error_name = 'org.bluez.Error.NotSupported'
-
-
-class NotPermittedException(dbus.exceptions.DBusException):
-    _dbus_error_name = 'org.bluez.Error.NotPermitted'
-
-
-class InvalidValueLengthException(dbus.exceptions.DBusException):
-    _dbus_error_name = 'org.bluez.Error.InvalidValueLength'
-
-
-class FailedException(dbus.exceptions.DBusException):
-    _dbus_error_name = 'org.bluez.Error.Failed'
-
-
 class Service(dbus.service.Object):
     """
     Main GATT Service with path base: /org/bluez/example/service
+
+    To avoid constantly transmitting 16 bytes which can be wasteful (Bluetooth is very limited in the amount of data and 16 bytes are significant), the Bluetooth SIG has adopted a standard UUID base. This base forms the first 96 bits (12 bytes)  of the 128-bit UUID. The rest of the bits are defined by the Bluetooth SIG:
+
+    XXXXXXXX-0000-1000-8000-00805F9B34FB
     """
     PATH_BASE = '/org/bluez/boxee/service'
 
@@ -276,6 +261,13 @@ class Advertisement(dbus.service.Object):
     PATH_BASE = '/org/bluez/boxee/advertisement'
 
     def __init__(self, bus, index, advertising_type):
+        """
+
+        :param bus: the dbus connection reference
+        :param index: the index of this advertisement
+        :param advertising_type:
+        :return:
+        """
         self.path = self.PATH_BASE + str(index)
         self.bus = bus
         self.ad_type = advertising_type
