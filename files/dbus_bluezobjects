@@ -1,0 +1,2472 @@
+method return sender=:1.30 -> dest=:1.118 reply_serial=2
+   array [
+      dict entry(
+         object path "/org/bluez"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.AgentManager1"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.ProfileManager1"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.Adapter1"
+               array [
+                  dict entry(
+                     string "Address"
+                     variant                         string "00:15:83:E5:14:D5"
+                  )
+                  dict entry(
+                     string "Name"
+                     variant                         string "thing"
+                  )
+                  dict entry(
+                     string "Alias"
+                     variant                         string "thing-0"
+                  )
+                  dict entry(
+                     string "Class"
+                     variant                         uint32 0
+                  )
+                  dict entry(
+                     string "Powered"
+                     variant                         boolean true
+                  )
+                  dict entry(
+                     string "Discoverable"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "DiscoverableTimeout"
+                     variant                         uint32 180
+                  )
+                  dict entry(
+                     string "Pairable"
+                     variant                         boolean true
+                  )
+                  dict entry(
+                     string "PairableTimeout"
+                     variant                         uint32 0
+                  )
+                  dict entry(
+                     string "Discovering"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "UUIDs"
+                     variant                         array [
+                           string "00001801-0000-1000-8000-00805f9b34fb"
+                           string "0000110e-0000-1000-8000-00805f9b34fb"
+                           string "00001800-0000-1000-8000-00805f9b34fb"
+                           string "00001200-0000-1000-8000-00805f9b34fb"
+                           string "0000180f-0000-1000-8000-00805f9b34fb"
+                           string "0000110c-0000-1000-8000-00805f9b34fb"
+                           string "0000180d-0000-1000-8000-00805f9b34fb"
+                           string "12345678-1234-5678-1234-56789abcdef0"
+                        ]
+                  )
+                  dict entry(
+                     string "Modalias"
+                     variant                         string "usb:v1D6Bp0246d0522"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattManager1"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.Media1"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.NetworkServer1"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.LEAdvertisingManager1"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.Device1"
+               array [
+                  dict entry(
+                     string "Address"
+                     variant                         string "69:9A:B1:60:CD:C3"
+                  )
+                  dict entry(
+                     string "Name"
+                     variant                         string "iPhone"
+                  )
+                  dict entry(
+                     string "Alias"
+                     variant                         string "iPhone"
+                  )
+                  dict entry(
+                     string "Appearance"
+                     variant                         uint16 64
+                  )
+                  dict entry(
+                     string "Icon"
+                     variant                         string "phone"
+                  )
+                  dict entry(
+                     string "Paired"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Trusted"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Blocked"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "LegacyPairing"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Connected"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "UUIDs"
+                     variant                         array [
+                           string "00001800-0000-1000-8000-00805f9b34fb"
+                           string "00001801-0000-1000-8000-00805f9b34fb"
+                           string "00001805-0000-1000-8000-00805f9b34fb"
+                           string "0000180a-0000-1000-8000-00805f9b34fb"
+                           string "0000180f-0000-1000-8000-00805f9b34fb"
+                           string "7905f431-b5ce-4e99-a40f-4b1e122d00d0"
+                           string "89d3502b-0f36-433a-8ef4-c502ad55f8dc"
+                           string "d0611e78-bbb4-4591-a5f8-487910ae4366"
+                        ]
+                  )
+                  dict entry(
+                     string "Adapter"
+                     variant                         object path "/org/bluez/hci0"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattService1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "89d3502b-0f36-433a-8ef4-c502ad55f8dc"
+                  )
+                  dict entry(
+                     string "Device"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3"
+                  )
+                  dict entry(
+                     string "Primary"
+                     variant                         boolean true
+                  )
+                  dict entry(
+                     string "Characteristics"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char0029"
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char002d"
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char0031"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char0031"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "c6b2f38c-23ab-46d8-a6ab-a3a870bbd5d7"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "read"
+                           string "write"
+                           string "extended-properties"
+                           string "reliable-write"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char0031/desc0033"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char0031/desc0033"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002900-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char0031"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char002d"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "2f7cabce-808d-411f-9a0c-bb92ba96c102"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "write"
+                           string "notify"
+                           string "extended-properties"
+                           string "reliable-write"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char002d/desc002f"
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char002d/desc0030"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char002d/desc0030"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002902-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char002d"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char002d/desc002f"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002900-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char002d"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char0029"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "9b3c81d8-57b1-4a8a-b8df-0e56f7ca51c2"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "write"
+                           string "notify"
+                           string "extended-properties"
+                           string "reliable-write"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char0029/desc002b"
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char0029/desc002c"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char0029/desc002c"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002902-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char0029"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char0029/desc002b"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002900-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0028/char0029"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattService1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "7905f431-b5ce-4e99-a40f-4b1e122d00d0"
+                  )
+                  dict entry(
+                     string "Device"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3"
+                  )
+                  dict entry(
+                     string "Primary"
+                     variant                         boolean true
+                  )
+                  dict entry(
+                     string "Characteristics"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e/char001f"
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e/char0022"
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e/char0025"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e/char0025"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "22eac6e9-24d6-4bb5-be44-b36ace7c7bfb"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "notify"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e/char0025/desc0027"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e/char0025/desc0027"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002902-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e/char0025"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e/char0022"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "9fbf120d-6301-42d9-8c58-25e699a21dbd"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "notify"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e/char0022/desc0024"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e/char0022/desc0024"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002902-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e/char0022"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e/char001f"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "69d1d8f3-45e1-49a8-9821-9bbdfdaad9d9"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "write"
+                           string "extended-properties"
+                           string "reliable-write"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e/char001f/desc0021"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e/char001f/desc0021"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002900-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service001e/char001f"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0013"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattService1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00001805-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Device"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3"
+                  )
+                  dict entry(
+                     string "Primary"
+                     variant                         boolean true
+                  )
+                  dict entry(
+                     string "Characteristics"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0013/char0014"
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0013/char0017"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0013/char0017"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002a0f-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0013"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "read"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0013/char0014"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002a2b-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0013"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "read"
+                           string "notify"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0013/char0014/desc0016"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0013/char0014/desc0016"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002902-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0013/char0014"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service000f"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattService1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "0000180f-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Device"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3"
+                  )
+                  dict entry(
+                     string "Primary"
+                     variant                         boolean true
+                  )
+                  dict entry(
+                     string "Characteristics"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service000f/char0010"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service000f/char0010"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002a19-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service000f"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "read"
+                           string "notify"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service000f/char0010/desc0012"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service000f/char0010/desc0012"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002902-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service000f/char0010"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service000a"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattService1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "d0611e78-bbb4-4591-a5f8-487910ae4366"
+                  )
+                  dict entry(
+                     string "Device"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3"
+                  )
+                  dict entry(
+                     string "Primary"
+                     variant                         boolean true
+                  )
+                  dict entry(
+                     string "Characteristics"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service000a/char000b"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service000a/char000b"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "8667556c-9a37-4c91-84ed-54ee27d90049"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service000a"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "write"
+                           string "notify"
+                           string "extended-properties"
+                           string "reliable-write"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service000a/char000b/desc000d"
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service000a/char000b/desc000e"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service000a/char000b/desc000e"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002902-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service000a/char000b"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service000a/char000b/desc000d"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002900-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service000a/char000b"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0006"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattService1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00001801-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Device"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3"
+                  )
+                  dict entry(
+                     string "Primary"
+                     variant                         boolean true
+                  )
+                  dict entry(
+                     string "Characteristics"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0006/char0007"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0006/char0007"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002a05-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0006"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "indicate"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0006/char0007/desc0009"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0006/char0007/desc0009"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002902-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_69_9A_B1_60_CD_C3/service0006/char0007"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.Device1"
+               array [
+                  dict entry(
+                     string "Address"
+                     variant                         string "67:EB:A0:BC:8A:B0"
+                  )
+                  dict entry(
+                     string "Name"
+                     variant                         string "iPhone"
+                  )
+                  dict entry(
+                     string "Alias"
+                     variant                         string "iPhone"
+                  )
+                  dict entry(
+                     string "Appearance"
+                     variant                         uint16 64
+                  )
+                  dict entry(
+                     string "Icon"
+                     variant                         string "phone"
+                  )
+                  dict entry(
+                     string "Paired"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Trusted"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Blocked"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "LegacyPairing"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Connected"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "UUIDs"
+                     variant                         array [
+                           string "00001800-0000-1000-8000-00805f9b34fb"
+                           string "00001801-0000-1000-8000-00805f9b34fb"
+                           string "00001805-0000-1000-8000-00805f9b34fb"
+                           string "0000180a-0000-1000-8000-00805f9b34fb"
+                           string "0000180f-0000-1000-8000-00805f9b34fb"
+                           string "7905f431-b5ce-4e99-a40f-4b1e122d00d0"
+                           string "89d3502b-0f36-433a-8ef4-c502ad55f8dc"
+                           string "d0611e78-bbb4-4591-a5f8-487910ae4366"
+                        ]
+                  )
+                  dict entry(
+                     string "Adapter"
+                     variant                         object path "/org/bluez/hci0"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattService1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "89d3502b-0f36-433a-8ef4-c502ad55f8dc"
+                  )
+                  dict entry(
+                     string "Device"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0"
+                  )
+                  dict entry(
+                     string "Primary"
+                     variant                         boolean true
+                  )
+                  dict entry(
+                     string "Characteristics"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char0029"
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char002d"
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char0031"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char0031"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "c6b2f38c-23ab-46d8-a6ab-a3a870bbd5d7"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "read"
+                           string "write"
+                           string "extended-properties"
+                           string "reliable-write"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char0031/desc0033"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char0031/desc0033"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002900-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char0031"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char002d"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "2f7cabce-808d-411f-9a0c-bb92ba96c102"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "write"
+                           string "notify"
+                           string "extended-properties"
+                           string "reliable-write"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char002d/desc002f"
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char002d/desc0030"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char002d/desc0030"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002902-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char002d"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char002d/desc002f"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002900-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char002d"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char0029"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "9b3c81d8-57b1-4a8a-b8df-0e56f7ca51c2"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "write"
+                           string "notify"
+                           string "extended-properties"
+                           string "reliable-write"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char0029/desc002b"
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char0029/desc002c"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char0029/desc002c"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002902-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char0029"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char0029/desc002b"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002900-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0028/char0029"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattService1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "7905f431-b5ce-4e99-a40f-4b1e122d00d0"
+                  )
+                  dict entry(
+                     string "Device"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0"
+                  )
+                  dict entry(
+                     string "Primary"
+                     variant                         boolean true
+                  )
+                  dict entry(
+                     string "Characteristics"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e/char001f"
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e/char0022"
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e/char0025"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e/char0025"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "22eac6e9-24d6-4bb5-be44-b36ace7c7bfb"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "notify"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e/char0025/desc0027"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e/char0025/desc0027"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002902-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e/char0025"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e/char0022"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "9fbf120d-6301-42d9-8c58-25e699a21dbd"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "notify"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e/char0022/desc0024"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e/char0022/desc0024"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002902-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e/char0022"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e/char001f"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "69d1d8f3-45e1-49a8-9821-9bbdfdaad9d9"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "write"
+                           string "extended-properties"
+                           string "reliable-write"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e/char001f/desc0021"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e/char001f/desc0021"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002900-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service001e/char001f"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0013"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattService1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00001805-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Device"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0"
+                  )
+                  dict entry(
+                     string "Primary"
+                     variant                         boolean true
+                  )
+                  dict entry(
+                     string "Characteristics"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0013/char0014"
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0013/char0017"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0013/char0017"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002a0f-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0013"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "read"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0013/char0014"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002a2b-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0013"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "read"
+                           string "notify"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0013/char0014/desc0016"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0013/char0014/desc0016"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002902-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0013/char0014"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service000f"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattService1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "0000180f-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Device"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0"
+                  )
+                  dict entry(
+                     string "Primary"
+                     variant                         boolean true
+                  )
+                  dict entry(
+                     string "Characteristics"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service000f/char0010"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service000f/char0010"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002a19-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service000f"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "read"
+                           string "notify"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service000f/char0010/desc0012"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service000f/char0010/desc0012"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002902-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service000f/char0010"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service000a"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattService1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "d0611e78-bbb4-4591-a5f8-487910ae4366"
+                  )
+                  dict entry(
+                     string "Device"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0"
+                  )
+                  dict entry(
+                     string "Primary"
+                     variant                         boolean true
+                  )
+                  dict entry(
+                     string "Characteristics"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service000a/char000b"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service000a/char000b"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "8667556c-9a37-4c91-84ed-54ee27d90049"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service000a"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "write"
+                           string "notify"
+                           string "extended-properties"
+                           string "reliable-write"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service000a/char000b/desc000d"
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service000a/char000b/desc000e"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service000a/char000b/desc000e"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002902-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service000a/char000b"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service000a/char000b/desc000d"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002900-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service000a/char000b"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0006"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattService1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00001801-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Device"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0"
+                  )
+                  dict entry(
+                     string "Primary"
+                     variant                         boolean true
+                  )
+                  dict entry(
+                     string "Characteristics"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0006/char0007"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0006/char0007"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattCharacteristic1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002a05-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Service"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0006"
+                  )
+                  dict entry(
+                     string "Notifying"
+                     variant                         boolean false
+                  )
+                  dict entry(
+                     string "Flags"
+                     variant                         array [
+                           string "indicate"
+                        ]
+                  )
+                  dict entry(
+                     string "Descriptors"
+                     variant                         array [
+                           object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0006/char0007/desc0009"
+                        ]
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+      dict entry(
+         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0006/char0007/desc0009"
+         array [
+            dict entry(
+               string "org.freedesktop.DBus.Introspectable"
+               array [
+               ]
+            )
+            dict entry(
+               string "org.bluez.GattDescriptor1"
+               array [
+                  dict entry(
+                     string "UUID"
+                     variant                         string "00002902-0000-1000-8000-00805f9b34fb"
+                  )
+                  dict entry(
+                     string "Characteristic"
+                     variant                         object path "/org/bluez/hci0/dev_67_EB_A0_BC_8A_B0/service0006/char0007"
+                  )
+               ]
+            )
+            dict entry(
+               string "org.freedesktop.DBus.Properties"
+               array [
+               ]
+            )
+         ]
+      )
+   ]
