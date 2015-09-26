@@ -7,7 +7,8 @@ import array
 
 BLUEZ_SERVICE_NAME = 'org.bluez'
 GATT_MGR_IFACE = 'org.bluez.GattManager1'
-LEADV_MGR_IFACE = 'org.bluez.LEAdvertisingManager1'
+LE_ADVERTISING_MANAGER_IFACE = 'org.bluez.LEAdvertisingManager1'
+LE_ADVERTISEMENT_IFACE = 'org.bluez.LEAdvertisement1'
 DBUS_OM_IFACE = 'org.freedesktop.DBus.ObjectManager'
 DBUS_PROP_IFACE = 'org.freedesktop.DBus.Properties'
 

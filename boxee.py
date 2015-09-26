@@ -29,13 +29,34 @@ class BoxeeServer():
 
         self.advertising_manager = dbus.Interface(
             self.bus.get_object(boxee.core.BLUEZ_SERVICE_NAME, self.adapter),
-            boxee.core.LEADV_MGR_IFACE)
+            boxee.core.LE_ADVERTISING_MANAGER_IFACE)
+
+        self.hci0_props_manager = dbus.Interface(
+            self.bus.get_object(boxee.core.BLUEZ_SERVICE_NAME, self.adapter),
+            boxee.core.DBUS_PROP_IFACE)
 
         self.services = []
 
     def start_server(self):
+        print('Starting boxee server\n')
         global mainloop
         mainloop = gobject.MainLoop()
+
+        print('Adapter properties');
+        for key, value in self.hci0_props_manager.GetAll('org.bluez.Adapter1').iteritems():
+            if isinstance(value, dbus.Array):
+                print (key)
+                for v in value:
+                    print('\t%s' % v)
+            elif isinstance(value, dbus.Dictionary):
+                print(key)
+                for k, v in value.iteritems():
+                    print('\t%s=%s' % (k,v))
+            else:
+                print('%s = %s' % (key, value))
+        print '\n'
+
+        # print self.hci_props_manager.GetAll('org.bluez.GattManager1')
 
         self.bus.add_signal_receiver(self.signal_receiver_callback,
                                      signal_name=None,
@@ -55,13 +76,13 @@ class BoxeeServer():
                                               reply_handler=self.register_service_callback,
                                               error_handler=self.register_service_error_callback)
 
-        # self.gatt_manager.RegisterService(automation_service.get_path(), {},
-        #                                   reply_handler=self.register_service_callback,
-        #                                   error_handler=self.register_service_error_callback)
         mainloop.run()
 
     def stop_server(self):
         print('Gracefully exiting boxee...')
+        for srv in self.services:
+            print('Unregistering service: %s' % srv.get_path())
+            self.gatt_manager.UnregisterService(srv.get_path())
 
     def register_service_callback(self):
         print('GATT service registered')
