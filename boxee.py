@@ -7,7 +7,12 @@ import dbus.service
 from boxee import stypes
 import boxee.core
 import boxee.io_service
+from boxee.io_service import AutomationIOService
+import boxee.advertisement
+from boxee.advertisement import BoxAdvertisement
 import gobject
+import sys
+import boxee.utils
 
 mainloop = None
 
@@ -18,21 +23,23 @@ class BoxeeServer():
 
         self.bus = dbus.SystemBus()
 
-        self.adapter = self.find_adapter(self.bus)
-        if not self.adapter:
-            print('GattManager1 interface not found')
-            return
+        self.gatt_adapter = self.find_adapter_for_interface(self.bus, boxee.core.GATT_MGR_IFACE)
+        self.advertising_adapter = self.find_adapter_for_interface(self.bus, boxee.core.LE_ADVERTISING_MANAGER_IFACE)
+
+        if self.gatt_adapter != self.advertising_adapter:
+            print('Warning: the gatt adapter and the advertising adapters are not the same. Exiting application...')
+            sys.exit(-1)
 
         self.gatt_manager = dbus.Interface(
-            self.bus.get_object(boxee.core.BLUEZ_SERVICE_NAME, self.adapter),
+            self.bus.get_object(boxee.core.BLUEZ_SERVICE_NAME, self.gatt_adapter),
             boxee.core.GATT_MGR_IFACE)
 
         self.advertising_manager = dbus.Interface(
-            self.bus.get_object(boxee.core.BLUEZ_SERVICE_NAME, self.adapter),
+            self.bus.get_object(boxee.core.BLUEZ_SERVICE_NAME, self.gatt_adapter),
             boxee.core.LE_ADVERTISING_MANAGER_IFACE)
 
         self.hci0_props_manager = dbus.Interface(
-            self.bus.get_object(boxee.core.BLUEZ_SERVICE_NAME, self.adapter),
+            self.bus.get_object(boxee.core.BLUEZ_SERVICE_NAME, self.gatt_adapter),
             boxee.core.DBUS_PROP_IFACE)
 
         self.services = []
@@ -42,19 +49,12 @@ class BoxeeServer():
         global mainloop
         mainloop = gobject.MainLoop()
 
-        print('Adapter properties');
-        for key, value in self.hci0_props_manager.GetAll('org.bluez.Adapter1').iteritems():
-            if isinstance(value, dbus.Array):
-                print (key)
-                for v in value:
-                    print('\t%s' % v)
-            elif isinstance(value, dbus.Dictionary):
-                print(key)
-                for k, v in value.iteritems():
-                    print('\t%s=%s' % (k,v))
-            else:
-                print('%s = %s' % (key, value))
-        print '\n'
+        if self.hci0_props_manager.Get(boxee.core.ADAPTER_IFACE, 'Powered') == dbus.Boolean(0):
+            print('Powering on the adapter [%s]' % self.hci0_props_manager.Get(boxee.core.ADAPTER_IFACE, 'Name'))
+            self.hci0_props_manager.Set(boxee.core.ADAPTER_IFACE, 'Powered', dbus.Boolean(1))
+
+        print('Adapter properties')
+        print(boxee.utils.describe_dbus_dict(self.hci0_props_manager.GetAll(boxee.core.ADAPTER_IFACE).iteritems()))
 
         # print self.hci_props_manager.GetAll('org.bluez.GattManager1')
 
@@ -68,13 +68,22 @@ class BoxeeServer():
                                      interface_keyword='interface',
                                      member_keyword='member',
                                      path_keyword='path')
+        # Setup services
+        self.services.append(AutomationIOService(self.bus, 0))
 
-        self.services.append(boxee.io_service.AutomationIOService(self.bus, 0))
+        # Initialize bluetooth advertisement
+        advertisement = BoxAdvertisement(self.bus, '0')
 
         for srv in self.services:
             self.gatt_manager.RegisterService(srv.get_path(), {},
-                                              reply_handler=self.register_service_callback,
-                                              error_handler=self.register_service_error_callback)
+                                              reply_handler=self.service_registration_cb,
+                                              error_handler=self.service_registration_err_cb)
+            advertisement.add_service_uuid(srv.get_properties()[boxee.core.GATT_SERVICE_IFACE]['UUID'])
+
+
+        self.advertising_manager.RegisterAdvertisement(advertisement.get_path(), {},
+                                                       reply_handler=self.adv_registration_cb,
+                                                       error_handler=self.adv_registration_err_cb)
 
         mainloop.run()
 
@@ -84,16 +93,22 @@ class BoxeeServer():
             print('Unregistering service: %s' % srv.get_path())
             self.gatt_manager.UnregisterService(srv.get_path())
 
-    def register_service_callback(self):
+    def service_registration_cb(self):
         print('GATT service registered')
 
-    def register_service_error_callback(self, error):
+    def service_registration_err_cb(self, error):
         """
         Callback method called by DBus, once the original method call was executed
             :param error: a DBusException
         """
         print('Exiting. Failed to register service: ' + str(error))
         mainloop.quit()
+
+    def adv_registration_cb(self):
+        print 'Advertisement registered'
+
+    def adv_registration_err_cb(self, error):
+        print 'Failed to register advertisement: ' + str(error)
 
     # def register_catchall_handler(*args, **kwargs):
     #     if kwargs is not None:
@@ -129,7 +144,7 @@ class BoxeeServer():
                 else:
                     print 'no need to reconnect'
 
-    def find_adapter(self, bus):
+    def find_adapter_for_interface(self, bus, iface_name):
         """
         Returns the first bluetooth adapter which has a org.bluez.GattManager1 interface on it
             :param bus: the dbus handler instance
@@ -140,10 +155,11 @@ class BoxeeServer():
         objects = remote_om.GetManagedObjects()
 
         for o, props in objects.iteritems():
-            if props.has_key(boxee.core.GATT_MGR_IFACE):
+            if props.has_key(iface_name):
                 return o
 
-        return None
+        print('Adapter for interface [%s] not found. Exiting application...' % iface_name)
+        sys.exit(-1)
 
 
 def main():
