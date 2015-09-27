@@ -1,20 +1,24 @@
 #!/usr/bin/python
 
 import dbus
-import dbus.exceptions
 import dbus.mainloop.glib
 import dbus.service
+from dbus.exceptions import DBusException
+from boxee.exceptions import DoesNotExistException, FailedException, InvalidArgsException, InvalidValueLengthException, NotPermittedException, NotSupportedException
+import gobject
+import sys
+import logging
+import logging.handlers
+
 from boxee import stypes
 import boxee.core
+from boxee.gpio import GpioConnector
 import boxee.io_service
 from boxee.io_service import AutomationIOService
 import boxee.advertisement
 from boxee.advertisement import BoxAdvertisement
-import gobject
-import sys
 import boxee.utils
-import logging
-import logging.handlers
+import boxee.gpio
 
 
 mainloop = None
@@ -27,6 +31,9 @@ class BoxeeServer():
         syslog_handler.setFormatter(formatter)
         logger.addHandler(syslog_handler)
         logger.setLevel(logging.DEBUG)
+
+        in_chs = [17, 18]
+        self.gpio = GpioConnector(in_chs)
 
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 
@@ -84,19 +91,20 @@ class BoxeeServer():
                                      member_keyword='member',
                                      path_keyword='path')
         # Setup services
-        self.services.append(AutomationIOService(self.bus, 0))
+        self.services.append(AutomationIOService(self.bus, 0, callback_func=self.ble_service_cb))
 
         # Initialize bluetooth advertisement
-        advertisement = BoxAdvertisement(self.bus, '0')
+        self.advertisement = BoxAdvertisement(self.bus, '0')
 
         for srv in self.services:
+            logger.info('Registering BLE service [%s]' % srv.get_path())
             self.gatt_manager.RegisterService(srv.get_path(), {},
                                               reply_handler=self.service_registration_cb,
                                               error_handler=self.service_registration_err_cb)
-            advertisement.add_service_uuid(srv.get_properties()[boxee.core.GATT_SERVICE_IFACE]['UUID'])
+            self.advertisement.add_service_uuid(srv.get_properties()[boxee.core.GATT_SERVICE_IFACE]['UUID'])
 
-
-        self.advertising_manager.RegisterAdvertisement(advertisement.get_path(), {},
+        logger.info('Registering BLE advertisement [%s]' % self.advertisement.get_path())
+        self.advertising_manager.RegisterAdvertisement(self.advertisement.get_path(), {},
                                                        reply_handler=self.adv_registration_cb,
                                                        error_handler=self.adv_registration_err_cb)
 
@@ -106,9 +114,18 @@ class BoxeeServer():
         exit_msg = 'Gracefully exiting boxee...'
         print(exit_msg)
         logger.info(exit_msg)
+
+        logger.info('Unregistering advertisement...')
+        self.advertisement.Release()
+        try:
+            self.advertising_manager.UnregisterAdvertisement(self.advertisement.get_path())
+        except (DBusException, DoesNotExistException, InvalidArgsException) as e:
+            logger.error('Could not cleanly unregister advertisement: %s' % str(e))
+
         for srv in self.services:
-            print('Unregistering service: %s' % srv.get_path())
+            logger.info('Unregistering service: %s' % srv.get_path())
             self.gatt_manager.UnregisterService(srv.get_path())
+
 
     def service_registration_cb(self):
         logger.debug('A GATT service got registered')
@@ -120,7 +137,7 @@ class BoxeeServer():
         """
         err_msg = 'Exiting. Failed to register service: ' + str(error)
         print(err_msg)
-        logger.error(err_msg,error)
+        logger.error(err_msg)
         mainloop.quit()
 
     def adv_registration_cb(self):
@@ -129,7 +146,20 @@ class BoxeeServer():
     def adv_registration_err_cb(self, error):
         err_msg = 'Failed to register advertisement: ' + str(error)
         print(err_msg)
-        logger.error(err_msg,error)
+        logger.error(err_msg)
+
+    def ble_service_cb(self, signal_dictionary):
+        """
+        :param signal_dictionary: example: {'AutIODigitalChrc': dbus.Array([dbus.Byte(0), dbus.Byte(255)], signature=dbus.Signature('y'))}
+        :return:
+        """
+        if 'AutIODigitalChrc' in signal_dictionary:
+            value_array = signal_dictionary['AutIODigitalChrc']
+            if isinstance(value_array, dbus.Array):
+                print(value_array)
+
+
+
 
     def signal_receiver_callback(self, *args, **kwargs):
         if kwargs is not None:

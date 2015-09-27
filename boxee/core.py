@@ -28,19 +28,24 @@ class Service(dbus.service.Object):
     """
     PATH_BASE = '/org/bluez/boxee/service'
 
-    def __init__(self, bus, index, uuid, primary):
+    def __init__(self, callback_func, bus, index, uuid, primary):
         """
+            :param callback_func: the callback function when some results need to be passed
             :param bus: the dbus connection
             :param index: the GATT service index (handler)
             :param uuid: the service UUID
             :param primary: true or false, depending if primary or secondary service
         """
+        self.callback_func = callback_func
         self.path = self.PATH_BASE + str(index)
         self.bus = bus
         self.uuid = uuid
         self.primary = primary
         self.characteristics = []
         dbus.service.Object.__init__(self, bus, self.path)
+
+    def callback(self, result_dic):
+        self.callback_func(result_dic)
 
     def get_properties(self):
         return {
@@ -116,6 +121,9 @@ class Characteristic(dbus.service.Object):
         self.descriptors = []
         dbus.service.Object.__init__(self, bus, self.path)
 
+    def get_service(self):
+        return self.service
+
     def get_properties(self):
         return {
             GATT_CHRC_IFACE: {
@@ -159,8 +167,9 @@ class Characteristic(dbus.service.Object):
 
     @dbus.service.method(GATT_CHRC_IFACE, in_signature='ay')
     def WriteValue(self, value):
-        print('Default WriteValue called, returning error')
-        raise NotSupportedException()
+        # print('Default WriteValue called, returning error')
+        # raise NotSupportedException()
+        self.get_service().callback({self.__class__.__name__:value})
 
     @dbus.service.method(GATT_CHRC_IFACE)
     def StartNotify(self):

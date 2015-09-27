@@ -18,12 +18,12 @@ class AutomationIOService(Service):
     """
     AUTIO_UUID = '1815'
 
-    def __init__(self, bus, index):
+    def __init__(self, bus, index, callback_func):
         """
             :param bus: the dbus connection
             :param index: the index of the service
         """
-        Service.__init__(self, bus, index, self.AUTIO_UUID, True)
+        Service.__init__(self, callback_func, bus, index, self.AUTIO_UUID, True)
         self.add_characteristic(AutIODigitalChrc(bus, 0, self))
         self.energy_expended = 0
 
@@ -41,22 +41,6 @@ class AutIODigitalChrc(Characteristic):
         self.add_descriptor(CharacteristicUserDescriptionDescriptor(bus, 1, self, "Automation Digital IO"))
         self.hr_ee_count = 0
 
-    def WriteValue(self, value):
-        print('Automation IO digital WriteValue called')
-        print('Value is: %s' % value)
-        """
-        if len(value) != 1:
-            raise InvalidValueLengthException()
-
-        byte = value[0]
-        print('Control Point value: ' + repr(byte))
-
-        if byte != 1:
-            raise FailedException("0x80")
-
-        print('Energy Expended field reset!')
-        self.service.energy_expended = 0
-        """
 
     def hr_msrmt_cb(self):
         value = []
