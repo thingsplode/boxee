@@ -1,7 +1,9 @@
 # boxee
 **Work in Progress**
 
-Boxee is a Bluetooth Low Energy automation protoype for the Raspberyy PI. It relies on Dbus and Bluez and its target to expose GPIO control over the BLE, so that one can control device over the phone.
+Boxee is a Bluetooth Low Energy automation protoype for the Raspberyy PI.
+It relies on Dbus and Bluez to expose GPIO control over the BLE, so that one can control GPIOs over the phone.
+The testing application on IOS is *LightBlue*
 
 ## Current Status
 
@@ -12,25 +14,27 @@ Creates a Bluetooth LE advertisement and publishes one service, which enables to
 
 ### Other features
 * The logging is made in syslog, some text is still printed on the standard ouput
+* Tested with RPI2
 
 ## Current Limitations
-* only GPIO 17 and 18 are initialized and can be controlled, however this limitation can easily be overcome by adding more channels in the BoxeeServer constructor (out_chs = [17, 18, xx, xx])
-* sometimes the advertisement is restarted only after 15 seconds that the connection was removed (bluez problem?)
+* only GPIO 17 and 18 are initialized and controllable, however this limitation can be easily overcome by adding more channels in the BoxeeServer constructor (out_chs = [17, 18, xx, xx])
+* sometimes the LE Advertisement is restarted only 15 seconds after the connection was removed (bluez problem?)
 * there's no notification or read support, however the complete infrastructure implementation is finished
 * the GATT server and the LE adverstisement are marked to be experimental features in the Bluez stack
+* there's no security whatsoever (anybody can send low or high requests to the GPIO interfaces)
 
 ## Current Issues
 * the ERROR level is not logged in the syslog for some reason
 * the LE Advertisement is not removed for some reason, once the server is shut down (bluez problem?)
-* there are still come methods which are printing to the standard output some debug data
-* the company data within the advertisement packages
+* there are still some methods printing to the standard output some debug data
+* the company data within the advertisement packages is not yet configurable from the Boxee Server
 
 # Setup and dependencies
 
 ## Dependencies
 * The Boxee server is based on the most recent bluez 5.34
 * Python 2.x
-* Systemd (bluez requirement)
+* Systemd is required for the bluez initialization (*soft* bluez requirement, it can be overcome by --disable-systemd configuration directive on bluez)
 
 # Debugging and development
 
@@ -85,9 +89,9 @@ systemctl restart bluetooth.service
 ## Hints and tricks
 You can connect to BLE enbaled devices by using:
 * if the bluetooth address is not public
-** hcitool lecc --random <MAC>
+..* hcitool lecc --random <MAC>
 * if the bluetooth address is public
-** hcitool lecc <MAC>
+..* hcitool lecc <MAC>
 
 Same goes with the gatttool:
 * gatttool -t random -b <MAC> -I or
