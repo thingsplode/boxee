@@ -39,10 +39,10 @@ class GpioConnector():
             if isinstance(item, dbus.Byte):
                 if counter < len(self.out_channels):
                     if item == 0x00:
-                        print('Setting channel [%s] to LOW' % self.out_channels[counter])
+                        logger.info('Setting channel [%s] to LOW' % self.out_channels[counter])
                         GPIO.output(self.out_channels[counter], GPIO.LOW)
                     else:
-                        print('Setting channel [%s] to HIGH' % self.out_channels[counter])
+                        logger.info('Setting channel [%s] to HIGH' % self.out_channels[counter])
                         GPIO.output(self.out_channels[counter], GPIO.HIGH)
                 else:
                     logger.warn('Ignoring byte value for channel which is out of initialized channel bound')
