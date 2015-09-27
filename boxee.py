@@ -24,7 +24,11 @@ import boxee.gpio
 mainloop = None
 logger = logging.getLogger()
 
-class BoxeeServer():
+
+class BoxeeServer:
+    """
+     The main server controlling the IO breakouts of the raspberry PI
+    """
     def __init__(self):
         syslog_handler = logging.handlers.SysLogHandler('/dev/log')
         formatter = logging.Formatter('%(levelname)s - %(module)s.%(funcName)s: %(message)s')
@@ -32,8 +36,8 @@ class BoxeeServer():
         logger.addHandler(syslog_handler)
         logger.setLevel(logging.DEBUG)
 
-        in_chs = [17, 18]
-        self.gpio = GpioConnector(in_chs)
+        out_chs = [17, 18]
+        self.gpio = GpioConnector(out_channels=out_chs)
 
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 
@@ -63,9 +67,13 @@ class BoxeeServer():
         self.services = []
 
     def start_server(self):
+        """
+        Lifecycle method: is the first to be called in order to start the server;
+        """
         start_msg = 'Starting boxee server'
         print(start_msg)
         logger.info(start_msg)
+
         global mainloop
         mainloop = gobject.MainLoop()
 
@@ -111,9 +119,15 @@ class BoxeeServer():
         mainloop.run()
 
     def stop_server(self):
+        """
+        Lifecycle method: the last to be called upon exit
+        """
         exit_msg = 'Gracefully exiting boxee...'
         print(exit_msg)
         logger.info(exit_msg)
+
+        logger.debug('Cleanup on GPIO')
+        self.gpio.cleanup()
 
         logger.info('Unregistering advertisement...')
         self.advertisement.Release()
@@ -153,12 +167,14 @@ class BoxeeServer():
         :param signal_dictionary: example: {'AutIODigitalChrc': dbus.Array([dbus.Byte(0), dbus.Byte(255)], signature=dbus.Signature('y'))}
         :return:
         """
-        if 'AutIODigitalChrc' in signal_dictionary:
-            value_array = signal_dictionary['AutIODigitalChrc']
-            if isinstance(value_array, dbus.Array):
-                print(value_array)
-
-
+        try:
+            if 'AutIODigitalChrc' in signal_dictionary:
+                value_array = signal_dictionary['AutIODigitalChrc']
+                if isinstance(value_array, dbus.Array):
+                    self.gpio.handle_out_channel_control_array(value_array)
+        except BaseException as e:
+            print('Unexpected error: ', sys.exc_info()[0], str(e))
+            logger.error('Error while handling bluetooth low energy callback')
 
 
     def signal_receiver_callback(self, *args, **kwargs):
