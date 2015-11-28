@@ -5,6 +5,10 @@ import sys
 import RPi.GPIO as GPIO
 
 logger = logging.getLogger()
+"""
+http://app.programmingfonts.org/
+Inconsolata, Monaco, Consolas, 'Courier New', Courier;
+"""
 
 class GpioConnector():
     def __init__(self, out_channels=None, in_channels=None):

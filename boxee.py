@@ -1,41 +1,29 @@
 #!/usr/bin/python
 
-import dbus
-import dbus.mainloop.glib
-import dbus.service
+import dbus, dbus.mainloop.glib, dbus.service, gobject
 from dbus.exceptions import DBusException
-from boxee.exceptions import DoesNotExistException, FailedException, InvalidArgsException, InvalidValueLengthException, NotPermittedException, NotSupportedException
-import gobject
-import sys
-import logging
-import logging.handlers
-
+from boxee.exceptions import DoesNotExistException, FailedException, InvalidArgsException, InvalidValueLengthException, \
+    NotPermittedException, NotSupportedException
+import sys, os, getopt, logging, logging.handlers
 from boxee import stypes
-import boxee.core
+import boxee.core, boxee.io_service, boxee.advertisement, boxee.utils, boxee.gpio
 from boxee.gpio import GpioConnector
-import boxee.io_service
 from boxee.io_service import AutomationIOService
-import boxee.advertisement
 from boxee.advertisement import BoxAdvertisement
-import boxee.utils
-import boxee.gpio
-
 
 mainloop = None
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 
 
 class BoxeeServer:
     """
-     The main server controlling the IO breakouts of the raspberry PI
+     The main server controlling the IO breakouts of the raspberry PI over bluetooth low energy connections (GATT)
     """
-    def __init__(self):
-        syslog_handler = logging.handlers.SysLogHandler('/dev/log')
-        formatter = logging.Formatter('%(levelname)s - %(module)s.%(funcName)s: %(message)s')
-        syslog_handler.setFormatter(formatter)
-        logger.addHandler(syslog_handler)
-        logger.setLevel(logging.DEBUG)
 
+    def __init__(self, current_folder, log_level):
+
+        self.setup_logging(current_folder, log_level)
+        # GPIO configuration
         out_chs = [17, 18]
         self.gpio = GpioConnector(out_channels=out_chs)
 
@@ -45,7 +33,6 @@ class BoxeeServer:
 
         self.gatt_adapter = self.find_adapter_for_interface(self.bus, boxee.core.GATT_MGR_IFACE)
         self.advertising_adapter = self.find_adapter_for_interface(self.bus, boxee.core.LE_ADVERTISING_MANAGER_IFACE)
-
         if self.gatt_adapter != self.advertising_adapter:
             err = ' the gatt adapter and the advertising adapters are not the same. Exiting application...'
             print(err)
@@ -64,7 +51,11 @@ class BoxeeServer:
             self.bus.get_object(boxee.core.BLUEZ_SERVICE_NAME, self.gatt_adapter),
             boxee.core.DBUS_PROP_IFACE)
 
+        # GATT service storage array
         self.services = []
+
+        # Initialize bluetooth advertisement
+        self.advertisement = BoxAdvertisement(self.bus, '0')
 
     def start_server(self):
         """
@@ -101,9 +92,7 @@ class BoxeeServer:
         # Setup services
         self.services.append(AutomationIOService(self.bus, 0, callback_func=self.ble_service_cb))
 
-        # Initialize bluetooth advertisement
-        self.advertisement = BoxAdvertisement(self.bus, '0')
-
+        # Add service info to the advertisement
         for srv in self.services:
             logger.info('Registering BLE service [%s]' % srv.get_path())
             self.gatt_manager.RegisterService(srv.get_path(), {},
@@ -140,13 +129,18 @@ class BoxeeServer:
             logger.info('Unregistering service: %s' % srv.get_path())
             self.gatt_manager.UnregisterService(srv.get_path())
 
+        logger.info('Boxee server is terminated...')
 
     def service_registration_cb(self):
+        """
+        Callback method called by DBus, once the original call was succesfully executed
+        :return:
+        """
         logger.debug('A GATT service got registered')
 
     def service_registration_err_cb(self, error):
         """
-        Callback method called by DBus, once the original method call was executed
+        Callback method called by DBus, once the original method call was executed with an error
             :param error: a DBusException
         """
         err_msg = 'Exiting. Failed to register service: ' + str(error)
@@ -154,10 +148,12 @@ class BoxeeServer:
         logger.error(err_msg)
         mainloop.quit()
 
-    def adv_registration_cb(self):
+    @staticmethod
+    def adv_registration_cb():
         logger.debug('Advertisement registered')
 
-    def adv_registration_err_cb(self, error):
+    @staticmethod
+    def adv_registration_err_cb(error):
         err_msg = 'Failed to register advertisement: ' + str(error)
         print(err_msg)
         logger.error(err_msg)
@@ -176,35 +172,56 @@ class BoxeeServer:
             print('Unexpected error: ', sys.exc_info()[0], str(e))
             logger.error('Error while handling bluetooth low energy callback')
 
+    @staticmethod
+    def signal_receiver_callback(*args, **kwargs):
+        """
+        Callback method registered for signals to be received on DBus
+        :param args:
+        :param kwargs:
+        :return:
+        """
 
-    def signal_receiver_callback(self, *args, **kwargs):
-        if kwargs is not None:
-            print '\n=== kwargs ==='
-            for key, value in kwargs.iteritems():
-                print("%s == %s" % (key, value))
-            print '==============\n'
+        # Dictionary of arguments.
+        # Example:
+        #       member == PropertiesChanged
+        #       path == /org/bluez/boxee/service0/char0
+        #       destination == None
+        #       interface == org.freedesktop.DBus.Properties
+        #       sender == :1.8
+        if logger.isEnabledFor(logging.DEBUG):
+            # args_string = ''
+            kwarg_string = ''
+            # if args is not None:
+            if kwargs is not None:
+                for key, value in kwargs.iteritems():
+                    kwarg_string += '{[%s] == [%s]}' % (key, value)
+            # args_string = ''.join(args)
+            logger.debug('Signal received: args: [%s] | Dictionary args: %s' % (args, kwarg_string))
 
         signal = {stypes.KEY_SIG_TYPE: stypes.SIG_TYPE_UNHANDLED}
-        if args[0].startswith('org.bluez.Device1'):
+
+        if len(args) > 0 and args[0].startswith('org.bluez.Device1'):
             signal[stypes.KEY_SIG_TYPE] = stypes.SIG_TYPE_BLUE_DEVICE
             if isinstance(args[1], dbus.Dictionary):
                 signal[stypes.KEY_SIG_VALUE_TYPE] = 'dictionary'
                 signal[stypes.KEY_SIG_VALUE] = args[1]
 
-        print("Signal")
-
+        logger.debug("Signal argument list:")
+        # example value: signal_type == unhandled
         for key, value in signal.iteritems():
-            print("%s == %s" % (key, value))
+            logger.debug("%s == %s" % (key, value))
+
 
         # Signal processing
         if signal[stypes.KEY_SIG_TYPE] is stypes.SIG_TYPE_BLUE_DEVICE and stypes.KEY_SIG_VALUE in signal:
             if stypes.TEST_CONNECTED in signal[stypes.KEY_SIG_VALUE]:
                 if not signal[stypes.KEY_SIG_VALUE][stypes.TEST_CONNECTED]:
-                    print "Need to reconnect"
+                    logger.info('Need to reconnect')
                 else:
-                    print 'no need to reconnect'
+                    logger.info('no need to reconnect')
 
-    def find_adapter_for_interface(self, bus, iface_name):
+    @staticmethod
+    def find_adapter_for_interface(bus, iface_name):
         """
         Returns the first bluetooth adapter which has a org.bluez.GattManager1 interface on it
             :param bus: the dbus handler instance
@@ -223,14 +240,69 @@ class BoxeeServer:
         logger.error(err_msg)
         sys.exit(-1)
 
+    @staticmethod
+    def setup_logging(current_folder, log_level):
+        """
+        Configures the logging subsystem. By default everything goes to the syslog.
+        :param current_folder: the current program folder. where the debug log file shall be placed;
+        :param log_level: the desired log level to be set for the root logger (eg. logging.DEBUG)
+        :return:
+        """
+        logging.root.setLevel(log_level)
 
-def main():
-    boxee = BoxeeServer()
+        formatter = logging.Formatter('%(levelname)s - %(module)s.%(funcName)s: %(message)s')
+        syslog_handler = logging.handlers.SysLogHandler('/dev/log')
+        syslog_handler.setFormatter(formatter)
+        syslog_handler.setLevel(log_level)
+        logging.root.addHandler(syslog_handler)
+
+        # if log_level == 10:
+        #     logfile = current_folder + '/debug.log'
+        #     file_handler = logging.handlers.RotatingFileHandler(logfile)
+        #     file_handler.setFormatter(formatter)
+        #     file_handler.setLevel(log_level)
+        #     logging.root.addHandler(file_handler)
+        #     logger.info('Logging in: %s', logfile)
+
+        logger.debug('Log level enabled for DEBUG: [%s]' % logger.isEnabledFor(logging.DEBUG))
+        logger.debug('Log level enabled for INFO: [%s]' % logger.isEnabledFor(logging.INFO))
+        logger.debug('Log level enabled for ERROR: [%s]' % logger.isEnabledFor(logging.ERROR))
+        logger.debug('Log level enabled for WARNING: [%s]' % logger.isEnabledFor(logging.WARNING))
+        logger.debug('Syslog handler level: %s', syslog_handler.level)
+        logger.debug('Root logger level %s', logging.root.level)
+
+
+def usage():
+    print ('Usage:')
+    print ('\t -h --help \t list all command line options')
+    print ('\t -d --debug \t switches on the debug mode (more details in the syslog)')
+
+
+def main(argv):
+    boxee_server = None
+    log_level = logging.INFO
     try:
-        boxee.start_server()
+        current_folder = os.path.dirname(os.path.realpath(sys.argv[0]))
+        # more details on getopts: http://www.diveintopython.net/scripts_and_streams/command_line_arguments.html
+        opts, args = getopt.getopt(argv, "hd", ["help", "debug"])
+        for opt, arg in opts:
+            if opt in ("-h", "--help"):
+                usage()
+                sys.exit()
+            elif opt == '-d':
+                print ('\t :: activating debug mode')
+                log_level = logging.DEBUG
+        boxee_server = BoxeeServer(current_folder, log_level)
+        boxee_server.start_server()
+    except getopt.GetoptError:
+        usage()
+        sys.exit(2)
+    except BaseException as e:
+        print('Base exception received: %s' % str(e))
     finally:
-        boxee.stop_server()
+        if boxee_server is not None:
+            boxee_server.stop_server()
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])  # chop off the sys.argv[0] which is the name of the script

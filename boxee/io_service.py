@@ -1,14 +1,14 @@
+import logging
 import gobject
 from random import randint
 from exceptions import InvalidValueLengthException, FailedException
 import boxee
-
-
-__author__ = 'tamas'
-
+import psutil
 import dbus.service
 from core import Service, Characteristic, CharacteristicUserDescriptionDescriptor
 
+__author__ = 'tamas'
+logger = logging.getLogger(__name__)
 
 class AutomationIOService(Service):
     """
@@ -43,9 +43,27 @@ class AutIODigitalChrc(Characteristic):
 
 
     def hr_msrmt_cb(self):
+
+        # psutil.cpu_percent(3, True)
+        # [2.4, 0.0, 0.0, 0.0]
+
+        # psutil.cpu_count()
+        # 4
+
+        # mem = psutil.virtual_memory()
+        # svmem(total=1020764160L, available=957878272L, percent=6.2, used=273211392L, free=747552768L, active=94724096, inactive=148664320, buffers=24080384L, cached=186245120)
+
+        # print (mem.total/1024/1024)
+        # 973 M
+
+        # psutil.swap_memory()
+        # sswap(total=2061496320L, used=0L, free=2061496320L, percent=0.0, sin=0, sout=0)
+
+        # psutil.disk_partitions()
+        # [sdiskpart(device='/dev/root', mountpoint='/', fstype='ext4', opts='rw,noatime,data=ordered'), sdiskpart(device='/dev/mmcblk0p1', mountpoint='/boot', fstype='vfat', opts='rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,errors=remount-ro')]
+
         value = []
         value.append(dbus.Byte(0x06))
-
         value.append(dbus.Byte(randint(90, 130)))
 
         if self.hr_ee_count % 10 == 0:
@@ -64,7 +82,7 @@ class AutIODigitalChrc(Characteristic):
         return self.notifying
 
     def _update_hr_msrmt_simulation(self):
-        print('Update HR Measurement Simulation')
+        logger.debug('Update HR Measurement Simulation')
 
         if not self.notifying:
             return

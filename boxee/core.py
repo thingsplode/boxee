@@ -1,3 +1,12 @@
+"""
+Core domain objects for GATT Bluetooth Low Energy devices.
+
+Glossary:
+GAP Roles: central and peripheral
+Peripheral (~ Server): can advertise; he Peripheral could be called a Slave; GATT Server; most common for a Peripheral to be a Server;
+Central (~ Client): that can actually send a connection request to estalish a connection; Central is sometimes called a Master; GATT Client; most common for a Central to be a Client;
+
+"""
 __author__ = 'tamas'
 import dbus.service
 import dbus
@@ -267,14 +276,17 @@ class CharacteristicUserDescriptionDescriptor(Descriptor):
 
 
 class Advertisement(dbus.service.Object):
+    """
+    Bluetooth Low Energy Advertisement
+    """
     PATH_BASE = '/org/bluez/boxee/advertisement'
 
     def __init__(self, bus, index, advertising_type):
         """
-
+        Initializes the GATT advertisement
         :param bus: the dbus connection reference
         :param index: the index of this advertisement
-        :param advertising_type:
+        :param advertising_type: possible values are: peripheral
         :return:
         """
         self.path = self.PATH_BASE + str(index)
@@ -323,6 +335,12 @@ class Advertisement(dbus.service.Object):
         self.manufacturer_data[manuf_code] = data
 
     def add_service_data(self, uuid, data):
+        """
+
+        :param uuid: the unique ID of the service
+        :param data:
+        :return:
+        """
         if not self.service_data:
             self.service_data = dict()
         self.service_data[uuid] = data

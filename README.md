@@ -105,3 +105,21 @@ bluez*/tools/btmgmt pairable on
 bluez*/tools/btmgmt le on
 ```
 Also sometimes the connection error is due to
+
+## Other dependencines
+psutil module is used to send memory and CPU information
+```bash
+apt-get install python-psutil python3-psutil
+```
+
+## Sources
+* Good and general summary of GATT: https://learn.adafruit.com/introduction-to-bluetooth-low-energy/gatt
+* GATT Profile hierarchy (official documentation): https://developer.bluetooth.org/TechnologyOverview/Pages/GATT.aspx
+* Ibeacon definition: https://developer.mbed.org/blog/entry/BLE-Beacons-URIBeacon-AltBeacons-iBeacon/
+
+## Further reading
+* Very good general presentation: http://www.slideshare.net/yeokm1/introduction-to-bluetooth-low-energy
+
+
+
+
