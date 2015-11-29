@@ -9,6 +9,7 @@ from boxee import stypes
 import boxee.core, boxee.io_service, boxee.advertisement, boxee.utils, boxee.gpio
 from boxee.gpio import GpioConnector
 from boxee.io_service import AutomationIOService
+from boxee.system_service import SystemService
 from boxee.advertisement import BoxAdvertisement
 
 mainloop = None
@@ -90,15 +91,18 @@ class BoxeeServer:
                                      member_keyword='member',
                                      path_keyword='path')
         # Setup services
-        self.services.append(AutomationIOService(self.bus, 0, callback_func=self.ble_service_cb))
+        self.services.append(AutomationIOService(self.bus, 0, write_callback_func=self.ble_service_write_cb))
+        self.services.append(SystemService(self.bus, 1, write_callback_func=self.ble_service_write_cb))
 
-        # Add service info to the advertisement
         for srv in self.services:
             logger.info('Registering BLE service [%s]' % srv.get_path())
             self.gatt_manager.RegisterService(srv.get_path(), {},
                                               reply_handler=self.service_registration_cb,
                                               error_handler=self.service_registration_err_cb)
-            self.advertisement.add_service_uuid(srv.get_properties()[boxee.core.GATT_SERVICE_IFACE]['UUID'])
+
+            # Add service info to the advertisement -> if many service it will result in
+            # Failed to register advertisement: org.bluez.Error.InvalidLength: Advertising data too long.
+            # self.advertisement.add_service_uuid(srv.get_properties()[boxee.core.GATT_SERVICE_IFACE]['UUID'])
 
         logger.info('Registering BLE advertisement [%s]' % self.advertisement.get_path())
         self.advertising_manager.RegisterAdvertisement(self.advertisement.get_path(), {},
@@ -119,12 +123,14 @@ class BoxeeServer:
         self.gpio.cleanup()
 
         logger.info('Unregistering advertisement...')
-        self.advertisement.Release()
         try:
+            logger.debug('Unregistering service adverstisement with path [%s]', self.advertisement.get_path())
             self.advertising_manager.UnregisterAdvertisement(self.advertisement.get_path())
+            self.advertisement.Release()
         except (DBusException, DoesNotExistException, InvalidArgsException) as e:
             logger.error('Could not cleanly unregister advertisement: %s' % str(e))
-
+        except BaseException as e:
+            logger.error('Uncategorized exception caught while unregistering advertisment: %s' % str(e))
         for srv in self.services:
             logger.info('Unregistering service: %s' % srv.get_path())
             self.gatt_manager.UnregisterService(srv.get_path())
@@ -158,11 +164,13 @@ class BoxeeServer:
         print(err_msg)
         logger.error(err_msg)
 
-    def ble_service_cb(self, signal_dictionary):
+    def ble_service_write_cb(self, signal_dictionary):
         """
         :param signal_dictionary: example: {'AutIODigitalChrc': dbus.Array([dbus.Byte(0), dbus.Byte(255)], signature=dbus.Signature('y'))}
         :return:
         """
+        logger.debug('BLE service write callback with signal dictionary: %s',
+                     signal_dictionary if signal_dictionary is not None else 'Undefined')
         try:
             if 'AutIODigitalChrc' in signal_dictionary:
                 value_array = signal_dictionary['AutIODigitalChrc']
@@ -209,8 +217,14 @@ class BoxeeServer:
         logger.debug("Signal argument list:")
         # example value: signal_type == unhandled
         for key, value in signal.iteritems():
-            logger.debug("%s == %s" % (key, value))
+            logger.debug("\t %s == %s" % (key, value))
 
+            # Signal types:
+            # Signal argument list:
+            #   signal_type == blue_device
+            #   value_type == dictionary
+            #   value == dbus.Dictionary({dbus.String(u'Connected'): dbus.Boolean(True, variant_level=1)}, signature=dbus.Signature('sv'))
+        # -----------
 
         # Signal processing
         if signal[stypes.KEY_SIG_TYPE] is stypes.SIG_TYPE_BLUE_DEVICE and stypes.KEY_SIG_VALUE in signal:

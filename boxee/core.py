@@ -7,12 +7,15 @@ Peripheral (~ Server): can advertise; he Peripheral could be called a Slave; GAT
 Central (~ Client): that can actually send a connection request to estalish a connection; Central is sometimes called a Master; GATT Client; most common for a Central to be a Client;
 
 """
-__author__ = 'tamas'
 import dbus.service
 import dbus
 import dbus.exceptions
 import array
+import logging
+import gobject
 from exceptions import InvalidArgsException, NotSupportedException, NotPermittedException
+
+__author__ = 'tamas'
 
 BLUEZ_SERVICE_NAME = 'org.bluez'
 GATT_MGR_IFACE = 'org.bluez.GattManager1'
@@ -25,7 +28,7 @@ DBUS_PROP_IFACE = 'org.freedesktop.DBus.Properties'
 GATT_SERVICE_IFACE = 'org.bluez.GattService1'
 GATT_CHRC_IFACE = 'org.bluez.GattCharacteristic1'
 GATT_DESC_IFACE = 'org.bluez.GattDescriptor1'
-
+logger = logging.getLogger(__name__)
 
 class Service(dbus.service.Object):
     """
@@ -37,15 +40,15 @@ class Service(dbus.service.Object):
     """
     PATH_BASE = '/org/bluez/boxee/service'
 
-    def __init__(self, callback_func, bus, index, uuid, primary):
+    def __init__(self, write_callback_func, bus, index, uuid, primary):
         """
-            :param callback_func: the callback function when some results need to be passed
+            :param write_callback_func: the callback function when some results need to be passed
             :param bus: the dbus connection
             :param index: the GATT service index (handler)
             :param uuid: the service UUID
             :param primary: true or false, depending if primary or secondary service
         """
-        self.callback_func = callback_func
+        self.callback_func = write_callback_func
         self.path = self.PATH_BASE + str(index)
         self.bus = bus
         self.uuid = uuid
@@ -99,7 +102,7 @@ class Service(dbus.service.Object):
     @dbus.service.method(DBUS_OM_IFACE, out_signature='a{oa{sa{sv}}}')
     def GetManagedObjects(self):
         response = {}
-        print('GetManagedObjects')
+        logger.debug('GetManagedObjects')
 
         response[self.get_path()] = self.get_properties()
         chrcs = self.get_characteristics()
@@ -171,7 +174,7 @@ class Characteristic(dbus.service.Object):
 
     @dbus.service.method(GATT_CHRC_IFACE, out_signature='ay')
     def ReadValue(self):
-        print('Default ReadValue called, returning error')
+        logger.warn('Default ReadValue called, returning error')
         raise NotSupportedException()
 
     @dbus.service.method(GATT_CHRC_IFACE, in_signature='ay')
@@ -182,12 +185,12 @@ class Characteristic(dbus.service.Object):
 
     @dbus.service.method(GATT_CHRC_IFACE)
     def StartNotify(self):
-        print('Default StartNotify called, returning error')
+        logger.warn('Default StartNotify called, returning error')
         raise NotSupportedException()
 
     @dbus.service.method(GATT_CHRC_IFACE)
     def StopNotify(self):
-        print('Default StopNotify called, returning error')
+        logger.warn('Default StopNotify called, returning error')
         raise NotSupportedException()
 
     @dbus.service.signal(DBUS_PROP_IFACE,
@@ -201,6 +204,46 @@ class Characteristic(dbus.service.Object):
         """
         pass
 
+
+class ReadAndNotificationCharacteristic(Characteristic):
+    def __init__(self, bus, index, service):
+        Characteristic.__init__(
+            self, bus, index,
+            self.return_uuid(),
+            ['read', 'notify'],
+            service)
+        self.notifying = False
+
+    def return_uuid(self):
+        logger.warn('Default return UUID is called. Please override this method.')
+        raise NotSupportedException()
+
+    def get_values(self):
+        logger.warn('Default get_values is called. Please override this method.')
+        raise NotSupportedException()
+
+    def ReadValue(self):
+        logger.debug('read value in read and notification characteristic')
+        return self.get_values()
+
+    def notify_cb(self):
+        logger.debug('notifying in read and notification characteristic')
+        self.PropertiesChanged(GATT_CHRC_IFACE, {'Value': self.get_values()}, [])
+        return self.notifying
+
+    def StartNotify(self):
+        if self.notifying:
+            # Already notifying, nothing to do
+            return
+
+        self.notifying = True
+        gobject.timeout_add(1000, self.notify_cb)
+
+    def StopNotify(self):
+        if not self.notifying:
+            # Not notifying, nothing to do
+            return
+        self.notifying = False
 
 class Descriptor(dbus.service.Object):
     def __init__(self, bus, index, uuid, flags, characteristic):
@@ -234,12 +277,12 @@ class Descriptor(dbus.service.Object):
 
     @dbus.service.method(GATT_DESC_IFACE, out_signature='ay')
     def ReadValue(self):
-        print('Default ReadValue called, returning error')
+        logger.warn('Default ReadValue called, returning error')
         raise NotSupportedException()
 
     @dbus.service.method(GATT_DESC_IFACE, in_signature='ay')
     def WriteValue(self, value):
-        print('Default WriteValue called, returning error')
+        logger.warn('Default WriteValue called, returning error')
         raise NotSupportedException()
 
 
@@ -347,13 +390,11 @@ class Advertisement(dbus.service.Object):
 
     @dbus.service.method(DBUS_PROP_IFACE, in_signature='s', out_signature='a{sv}')
     def GetAll(self, interface):
-        print 'GetAll'
+        logger.debug('GetAll :: returning props')
         if interface != LE_ADVERTISEMENT_IFACE:
             raise InvalidArgsException()
-        print 'returning props'
         return self.get_properties()[LE_ADVERTISEMENT_IFACE]
 
     @dbus.service.method(LE_ADVERTISEMENT_IFACE, in_signature='', out_signature='')
     def Release(self):
-        print '%s: Released!' % self.path
-
+        logger.debug('%s: Released!', self.path)

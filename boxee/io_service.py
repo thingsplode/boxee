@@ -3,12 +3,11 @@ import gobject
 from random import randint
 from exceptions import InvalidValueLengthException, FailedException
 import boxee
-import psutil
-import dbus.service
 from core import Service, Characteristic, CharacteristicUserDescriptionDescriptor
 
 __author__ = 'tamas'
 logger = logging.getLogger(__name__)
+
 
 class AutomationIOService(Service):
     """
@@ -18,12 +17,12 @@ class AutomationIOService(Service):
     """
     AUTIO_UUID = '1815'
 
-    def __init__(self, bus, index, callback_func):
+    def __init__(self, bus, index, write_callback_func):
         """
             :param bus: the dbus connection
             :param index: the index of the service
         """
-        Service.__init__(self, callback_func, bus, index, self.AUTIO_UUID, True)
+        Service.__init__(self, write_callback_func, bus, index, self.AUTIO_UUID, True)
         self.add_characteristic(AutIODigitalChrc(bus, 0, self))
         self.energy_expended = 0
 
@@ -41,26 +40,9 @@ class AutIODigitalChrc(Characteristic):
         self.add_descriptor(CharacteristicUserDescriptionDescriptor(bus, 1, self, "Automation Digital IO"))
         self.hr_ee_count = 0
 
-
     def hr_msrmt_cb(self):
-
-        # psutil.cpu_percent(3, True)
-        # [2.4, 0.0, 0.0, 0.0]
-
-        # psutil.cpu_count()
-        # 4
-
-        # mem = psutil.virtual_memory()
-        # svmem(total=1020764160L, available=957878272L, percent=6.2, used=273211392L, free=747552768L, active=94724096, inactive=148664320, buffers=24080384L, cached=186245120)
-
-        # print (mem.total/1024/1024)
-        # 973 M
-
         # psutil.swap_memory()
         # sswap(total=2061496320L, used=0L, free=2061496320L, percent=0.0, sin=0, sout=0)
-
-        # psutil.disk_partitions()
-        # [sdiskpart(device='/dev/root', mountpoint='/', fstype='ext4', opts='rw,noatime,data=ordered'), sdiskpart(device='/dev/mmcblk0p1', mountpoint='/boot', fstype='vfat', opts='rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,errors=remount-ro')]
 
         value = []
         value.append(dbus.Byte(0x06))
@@ -91,7 +73,7 @@ class AutIODigitalChrc(Characteristic):
 
     def StartNotify(self):
         if self.notifying:
-            print('Already notifying, nothing to do')
+            logger.debug('Already notifying, nothing to do')
             return
 
         self.notifying = True
@@ -99,7 +81,7 @@ class AutIODigitalChrc(Characteristic):
 
     def StopNotify(self):
         if not self.notifying:
-            print('Not notifying, nothing to do')
+            logger.debug('Not notifying, nothing to do')
             return
 
         self.notifying = False
