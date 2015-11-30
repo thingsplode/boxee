@@ -1,4 +1,4 @@
-from binascii import unhexlify
+from binascii import unhexlify, hexlify
 from core import Service, Characteristic, ReadAndNotificationCharacteristic, CharacteristicUserDescriptionDescriptor
 import psutil
 import boxee, logging, struct, gobject, dbus, dbus.service
@@ -34,6 +34,7 @@ class MemoryPercentageChrc(ReadAndNotificationCharacteristic):
         return 'b03eef61-bce5-4849-aaa3-9cc5f652cf03'
 
     def get_values(self):
+        logger.debug('getting values in [%s]', __name__)
         values = []
         mem = psutil.virtual_memory()
         values.append(long_to_bytes(mem.percent))
@@ -70,14 +71,27 @@ class MemoryDataChrc(ReadAndNotificationCharacteristic):
 class CpuPercentageChrc(ReadAndNotificationCharacteristic):
     def __init__(self, bus, index, service):
         ReadAndNotificationCharacteristic.__init__(self, bus, index, service)
-        self.add_descriptor(CharacteristicUserDescriptionDescriptor(bus, 1, self, "CPU Data"))
+        self.add_descriptor(CharacteristicUserDescriptionDescriptor(bus, 1, self, "CPU Percentage"))
 
     def return_uuid(self):
         return 'b0cf5f03-e079-4c77-8e1b-7763e734e5f4'
 
     def get_values(self):
-        values = [dbus.Byte(psutil.cpu_count), dbus.Array(psutil.cpu_percent(1, True))]
-        return values
+        logger.debug('getting values in [%s]', type(self).__name__)
+        values = []
+        try:
+            for cpu_percent in psutil.cpu_percent(1, True):
+                cpu_percent_struct = struct.pack('!f', cpu_percent)
+                cpu_percent_struct_byte_length = len(cpu_percent_struct)
+                values.append(dbus.Byte(cpu_percent_struct_byte_length))
+                append_bytearray_to_array(values, cpu_percent_struct)
+                logger.debug('cpu percent [%s], hex bytes [%s], structure byte length: [%s]', cpu_percent,
+                             hexlify(cpu_percent_struct), cpu_percent_struct_byte_length)
+        except BaseException as e:
+            logger.error('General error in [%s]: %s', type(self).__name__, str(e))
+        finally:
+            logger.debug('returning byte array of size: [%s] and raw value: [%s]', len(values), repr(values))
+            return values
 
 
 class CpuDataChrc(ReadAndNotificationCharacteristic):
@@ -149,9 +163,8 @@ def append_bytearray_to_array(input_array, appendable_bytestream):
         input_array = []
 
     if appendable_bytestream is not None:
-        # do something
-        pass
-
+        for this_byte in appendable_bytestream:
+            input_array.append(dbus.Byte(this_byte))
     return input_array
 
 

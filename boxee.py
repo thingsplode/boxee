@@ -20,6 +20,7 @@ class BoxeeServer:
     """
      The main server controlling the IO breakouts of the raspberry PI over bluetooth low energy connections (GATT)
     """
+    # todo: bluetoothd[1792]: Can't store info for private addressed device
 
     def __init__(self, current_folder, log_level):
 
@@ -100,11 +101,8 @@ class BoxeeServer:
                                               reply_handler=self.service_registration_cb,
                                               error_handler=self.service_registration_err_cb)
 
-            # Add service info to the advertisement -> if many service it will result in
-            # Failed to register advertisement: org.bluez.Error.InvalidLength: Advertising data too long.
-            # self.advertisement.add_service_uuid(srv.get_properties()[boxee.core.GATT_SERVICE_IFACE]['UUID'])
-
         logger.info('Registering BLE advertisement [%s]' % self.advertisement.get_path())
+        self.advertisement.add_service_uuid('2A56')
         self.advertising_manager.RegisterAdvertisement(self.advertisement.get_path(), {},
                                                        reply_handler=self.adv_registration_cb,
                                                        error_handler=self.adv_registration_err_cb)
@@ -115,6 +113,9 @@ class BoxeeServer:
         """
         Lifecycle method: the last to be called upon exit
         """
+
+        # todo: unregister advertsiement is not working
+
         exit_msg = 'Gracefully exiting boxee...'
         print(exit_msg)
         logger.info(exit_msg)

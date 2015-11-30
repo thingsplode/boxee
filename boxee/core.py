@@ -228,6 +228,7 @@ class ReadAndNotificationCharacteristic(Characteristic):
 
     def notify_cb(self):
         logger.debug('notifying in read and notification characteristic')
+
         self.PropertiesChanged(GATT_CHRC_IFACE, {'Value': self.get_values()}, [])
         return self.notifying
 

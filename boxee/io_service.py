@@ -2,6 +2,7 @@ import logging
 import gobject
 from random import randint
 from exceptions import InvalidValueLengthException, FailedException
+import dbus
 import boxee
 from core import Service, Characteristic, CharacteristicUserDescriptionDescriptor
 
@@ -56,9 +57,10 @@ class AutIODigitalChrc(Characteristic):
         self.service.energy_expended = \
             min(0xffff, self.service.energy_expended + 1)
         self.hr_ee_count += 1
-
-        print('Updating value: ' + repr(value))
-
+        print(repr(value))
+        print(len(value))
+        logger.debug('Updating value: [%s] with length [%s]', repr(value), len(value))
+        logger.debug('raw value: [%s]', value)
         self.PropertiesChanged(boxee.core.GATT_CHRC_IFACE, {'Value': value}, [])
 
         return self.notifying
