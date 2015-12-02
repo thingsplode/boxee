@@ -11,6 +11,7 @@ from boxee.gpio import GpioConnector
 from boxee.io_service import AutomationIOService
 from boxee.system_service import SystemService
 from boxee.advertisement import BoxAdvertisement
+import boxee.persistence
 
 mainloop = None
 logger = logging.getLogger(__name__)
@@ -27,6 +28,8 @@ class BoxeeServer:
         self.setup_logging(current_folder, log_level)
         # GPIO configuration
         out_chs = [17, 18]
+        self.box_dao = boxee.persistence.BoxDao(range(17, 19), current_folder);
+
         self.gpio = GpioConnector(out_channels=out_chs)
 
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
@@ -135,6 +138,8 @@ class BoxeeServer:
         for srv in self.services:
             logger.info('Unregistering service: %s' % srv.get_path())
             self.gatt_manager.UnregisterService(srv.get_path())
+        if self.box_dao:
+            self.box_dao.destroy()
 
         logger.info('Boxee server is terminated...')
 

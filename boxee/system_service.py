@@ -18,11 +18,11 @@ class SystemService(Service):
             :param index: the index of the service
         """
         Service.__init__(self, write_callback_func, bus, index, self.SYS_SRV_UUID, True)
-        self.add_characteristic(MemoryDataChrc(bus, 0, self))
-        self.add_characteristic(MemoryPercentageChrc(bus, 1, self))
-        self.add_characteristic(CpuDataChrc(bus, 2, self))
-        self.add_characteristic(CpuPercentageChrc(bus, 3, self))
-        self.add_characteristic(DiskDataChrc(bus, 4, self))
+        self.add_characteristic(MemoryPercentageChrc(bus, 0, self))
+        self.add_characteristic(CpuPercentageChrc(bus, 1, self))
+        # self.add_characteristic(MemoryDataChrc(bus, 0, self))
+        # self.add_characteristic(CpuDataChrc(bus, 2, self))
+        # self.add_characteristic(DiskDataChrc(bus, 4, self))
 
 
 class MemoryPercentageChrc(ReadAndNotificationCharacteristic):
@@ -37,7 +37,10 @@ class MemoryPercentageChrc(ReadAndNotificationCharacteristic):
         logger.debug('getting values in [%s]', __name__)
         values = []
         mem = psutil.virtual_memory()
-        values.append(long_to_bytes(mem.percent))
+        mem_percent_struct = struct.pack('!f', mem.percent)
+        append_bytearray_to_array(values, mem_percent_struct)
+        logger.debug('memory percent [%s], hex bytes [%s], structure byte length: [%s]', mem_percent,
+                     hexlify(mem_percent_struct), len(mem_percent_struct))
         return values
 
 
@@ -69,6 +72,14 @@ class MemoryDataChrc(ReadAndNotificationCharacteristic):
 
 
 class CpuPercentageChrc(ReadAndNotificationCharacteristic):
+    """
+        core 1: byte length
+        core 1: percentage float (4 bytes)
+        ...
+        core x: byte length
+        core x: percentage float (4 bytes)
+    """
+
     def __init__(self, bus, index, service):
         ReadAndNotificationCharacteristic.__init__(self, bus, index, service)
         self.add_descriptor(CharacteristicUserDescriptionDescriptor(bus, 1, self, "CPU Percentage"))
