@@ -15,6 +15,7 @@ class PersistenceException(Exception):
     def __init__(self, *args, **kwargs):
         Exception.__init__(self, *args, **kwargs)
 
+
 class BoxDao:
     """
     The data access object for the box locker
@@ -28,19 +29,28 @@ class BoxDao:
             self.cursor = self.connection.cursor()
             self.cursor.executescript("""
               create table if not exists locker(id integer primary key autoincrement, slot_id int not null, used char(1) not null, barcode text not null);
-              create unique index if not exists unique_slot on locker (slot_id);
+              create unique index if not exists uq_sl on locker (slot_id);
               """)
-            init_string = ''.join(
-                ["insert into locker(slot_id, used, barcode) values (%s,'F','');" % box for box in box_range])
+            # create unique index if not exists uq_brc on locker (barcode);
+            init_pieces = []
+            for box in box_range:
+                init_pieces.append(
+                    "insert into locker(slot_id, used, barcode) select {0},'F','' where not exists (select 1 from locker where slot_id={0});".format(
+                        box))
+            init_string = ''.join(init_pieces)
+            ## if not exists
+            logger.debug('Initializing data: [%s]', init_string)
             self.cursor.executescript(init_string)
             self.connection.commit()
         except BaseException as e:
             traceback.print_exc()
             logger.error('Error while initializing database: %s', str(e))
-        finally:
             if self.connection:
                 self.connection.rollback()
+                logger.warn('closing connection due to previous error.')
                 self.connection.close()
+        finally:
+            pass
 
     def fetch_empty_slots(self):
         """
@@ -57,7 +67,7 @@ class BoxDao:
             else:
                 return rows
         except BaseException as e:
-            raise PersistenceException(e)
+            raise PersistenceException(str(e))
 
     def fetch_slot_by_barcode(self, barcode):
         """
@@ -66,19 +76,20 @@ class BoxDao:
         :return: the slot_id which can be than opened
         """
         try:
-            self.cursor.execute('SELECT * FROM locker WHERE barcode = ?', barcode)
+            self.cursor.execute('SELECT slot_id FROM locker WHERE barcode = ?', [barcode])
             self.connection.commit()
             row = self.cursor.fetchone()
-            if len(row) > 0:
-                logger.debug('fetching by barcode %s with row-size [%s] and slot id [%s]', barcode, len(row),
-                             row['slot_id'])
-                return row['slot_id']
-            else:
-                logger.debug('fetching by barcode %s with row-size [%s]. Slot ID: -1 is returned.', barcode, len(row))
+            if row is None or len(row) == 0:
+                logger.debug(
+                    'fetching by barcode [%s] with return-row-size [0] (= not found). Slot ID: -1 will be returned.',
+                    barcode)
                 return -1
+            else:
+                logger.debug('fetching by barcode %s with row-size [%s] and slot id [%s]', barcode, len(row), row[0])
+                return row[0]
         except BaseException as e:
             logger.error('could not fetch row by barcode due to: %s', str(e))
-            raise PersistenceException(e)
+            raise PersistenceException(str(e))
 
     def update_box(self, slot_id, used=False, barcode=''):
         """
@@ -91,11 +102,18 @@ class BoxDao:
         try:
             logger.debug('updating box with slot id [%s] used [%s] and barcode [%s]', slot_id, used, barcode)
             self.cursor.execute(
-                "update slot set used='{0}' where slot_id={1} and barcode='{2}';".format(used, slot_id, barcode))
+                "update locker set used='{0}', barcode='{1}' where slot_id='{2}';".format('T' if used else 'F', barcode,
+                                                                                          slot_id))
             self.connection.commit()
         except BaseException as e:
             self.connection.rollback()
-            raise PersistenceException(e)
+            raise PersistenceException(str(e))
+
+        if self.cursor.rowcount == 0:
+            issue = 'the updated row count is 0'
+            logger.error(issue)
+            raise PersistenceException(issue)
+
 
     def destroy(self):
         """

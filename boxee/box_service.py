@@ -24,17 +24,18 @@ class BoxManager:
         :type gpio_connector: gpio.GpioConnector
         """
         global result_codes
-        result_codes = enum(STORED=0x00, SLOTS_NOT_AVAILABLE=0x01, PARCEl_RELEASED=0x02, PARCEL_NOT_FOUND=0x03,
+        result_codes = enum(STORED=0x00, SLOTS_NOT_AVAILABLE=0x01, PARCEL_RELEASED=0x02, PARCEL_NOT_FOUND=0x03,
                             INVALID_DATA=0x04, GENERIC_FAILURE=0x255)
         self.box_dao = box_dao
         self.gpio = gpio_connector
 
     def store_parcel(self, barcode):
-        empty_slots = self.box_dao.fetch_empty_slots()
         try:
+            logger.debug('preparing to store parcel identified by barcode [%s]', barcode)
+            empty_slots = self.box_dao.fetch_empty_slots()
             if empty_slots is None or len(empty_slots) == 0:
                 logger.warn('there are no free slots available for storing parcel')
-                return result_codes.SLOTS_NOT_AVAILABLE, -1
+                return result_codes.SLOTS_NOT_AVAILABLE, 0
             else:
                 slot_id = empty_slots[0][0]
                 self.gpio.open_slot(slot_id)
@@ -43,14 +44,15 @@ class BoxManager:
                 return result_codes.STORED, slot_id
         except BaseException as ex:
             logger.error('Error while storing parcel: %s', str(ex))
-            return result_codes.GENERIC_FAILURE, -1
+            return result_codes.GENERIC_FAILURE, 0
 
     def release_parcel(self, barcode):
         try:
+            logger.debug('searching for parcel with barcode [%s] for release', barcode)
             slot_id = self.box_dao.fetch_slot_by_barcode(barcode)
-            if slot_id == -1:
+            if slot_id <= 0:
                 logger.warn('required parcel [%s] is not found.', barcode)
-                return result_codes.PARCEL_NOT_FOUND, -1
+                return result_codes.PARCEL_NOT_FOUND, 0
             else:
                 self.box_dao.update_box(slot_id, False, '')
                 self.gpio.open_slot(slot_id)
@@ -58,7 +60,7 @@ class BoxManager:
                 return result_codes.PARCEL_RELEASED, slot_id
         except BaseException as ex:
             logger.error('Error while releasing parcel: %s', str(ex))
-            return result_codes.GENERIC_FAILURE, -1
+            return result_codes.GENERIC_FAILURE, 0
 
 
 class BoxService(Service):
@@ -97,18 +99,18 @@ class ParcelCharacteristic(Characteristic):
         self.notifying = False
 
     def return_uuid(self):
-        logger.warn('Default return UUID is called. Please override this method.')
+        logger.warn('Default return UUID is called  (not implemented). Please override this method.')
         raise NotSupportedException()
 
     def write_action(self, value):
-        logger.warn('Default return UUID is called. Please override this method.')
+        logger.warn('Default write is called  (not implemented). Please override this method.')
         raise NotSupportedException()
 
     def WriteValue(self, value):
         # self.get_service().callback({self.__class__.__name__:value})
         if len(value) == 0:
             # no barcode value is sent
-            self.notify(result_codes.INVALID_DATA, -1)
+            self.notify(result_codes.INVALID_DATA, 0)
         else:
             # barcode value is available
             self.write_action(value)
@@ -132,8 +134,11 @@ class ParcelCharacteristic(Characteristic):
         :return:
         """
         if self.notifying:
+            logger.debug('Notifying with response code [%s] and slot [%s]', code, slot)
             value_array = [dbus.Byte(code), dbus.Byte(slot)]
             self.PropertiesChanged(core.GATT_CHRC_IFACE, {'Value': value_array}, [])
+        else:
+            logger.warn('notification is not enabled')
 
 
 class ParcelStoreCharacteristic(ParcelCharacteristic):
@@ -145,7 +150,11 @@ class ParcelStoreCharacteristic(ParcelCharacteristic):
         return 'f76e76fc-a36a-49ab-85d3-9ac389b12ef8'
 
     def write_action(self, value):
-        self.notify(self.box_manager.store_parcel("".join(map(chr, value))))
+        try:
+            res = self.box_manager.store_parcel("".join(map(chr, value)))
+            self.notify(res[0], res[1])
+        except BaseException as e:
+            logger.error('notification failed during write due to: %s', str(e))
 
 
 class ParcelReleaseCharacteristic(ParcelCharacteristic):
@@ -157,4 +166,8 @@ class ParcelReleaseCharacteristic(ParcelCharacteristic):
         return 'e8dbd220-6391-4498-a19b-33adb3543a33'
 
     def write_action(self, value):
-        self.notify(self.box_manager.release_parcel("".join(map(chr, value))))
+        try:
+            res = self.box_manager.release_parcel("".join(map(chr, value)))
+            self.notify(res[0], res[1])
+        except BaseException as e:
+            logger.error('notification failed during write due to: %s', str(e))

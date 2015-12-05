@@ -174,7 +174,7 @@ class Characteristic(dbus.service.Object):
 
     @dbus.service.method(GATT_CHRC_IFACE, out_signature='ay')
     def ReadValue(self):
-        logger.warn('Default ReadValue called, returning error')
+        logger.warn('Default ReadValue called (not implemented), returning error')
         raise NotSupportedException()
 
     @dbus.service.method(GATT_CHRC_IFACE, in_signature='ay')
@@ -185,12 +185,12 @@ class Characteristic(dbus.service.Object):
 
     @dbus.service.method(GATT_CHRC_IFACE)
     def StartNotify(self):
-        logger.warn('Default StartNotify called, returning error')
+        logger.warn('Default StartNotify called  (not implemented), returning error')
         raise NotSupportedException()
 
     @dbus.service.method(GATT_CHRC_IFACE)
     def StopNotify(self):
-        logger.warn('Default StopNotify called, returning error')
+        logger.warn('Default StopNotify called  (not implemented), returning error')
         raise NotSupportedException()
 
     @dbus.service.signal(DBUS_PROP_IFACE,

@@ -30,7 +30,7 @@ class BoxeeServer:
         self.setup_logging(current_folder, log_level)
         # GPIO configuration
         out_chs = [17, 18]
-        self.box_dao = boxee.persistence.BoxDao(range(17, 19), current_folder);
+        self.box_dao = boxee.persistence.BoxDao(range(17, 19), current_folder)
 
         self.gpio = GpioConnector(out_channels=out_chs)
 
