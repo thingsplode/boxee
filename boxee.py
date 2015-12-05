@@ -2,6 +2,7 @@
 
 import dbus, dbus.mainloop.glib, dbus.service, gobject
 from dbus.exceptions import DBusException
+from boxee.box_service import BoxService
 from boxee.exceptions import DoesNotExistException, FailedException, InvalidArgsException, InvalidValueLengthException, \
     NotPermittedException, NotSupportedException
 import sys, os, getopt, logging, logging.handlers
@@ -12,6 +13,7 @@ from boxee.io_service import AutomationIOService
 from boxee.system_service import SystemService
 from boxee.advertisement import BoxAdvertisement
 import boxee.persistence
+import boxee.box_service
 
 mainloop = None
 logger = logging.getLogger(__name__)
@@ -97,6 +99,7 @@ class BoxeeServer:
         # Setup services
         self.services.append(AutomationIOService(self.bus, 0, write_callback_func=self.ble_service_write_cb))
         self.services.append(SystemService(self.bus, 1, write_callback_func=self.ble_service_write_cb))
+        self.services.append(BoxService(self.box_dao, self.gpio, self.bus, 2))
 
         for srv in self.services:
             logger.info('Registering BLE service [%s]' % srv.get_path())
@@ -118,7 +121,6 @@ class BoxeeServer:
         """
 
         # todo: unregister advertsiement is not working
-
         exit_msg = 'Gracefully exiting boxee...'
         print(exit_msg)
         logger.info(exit_msg)
@@ -172,6 +174,7 @@ class BoxeeServer:
 
     def ble_service_write_cb(self, signal_dictionary):
         """
+        Callback method called whenever a bluetooth low energy GATT Characteristic write method is called
         :param signal_dictionary: example: {'AutIODigitalChrc': dbus.Array([dbus.Byte(0), dbus.Byte(255)], signature=dbus.Signature('y'))}
         :return:
         """

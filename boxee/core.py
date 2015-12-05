@@ -205,12 +205,12 @@ class Characteristic(dbus.service.Object):
         pass
 
 
-class ReadAndNotificationCharacteristic(Characteristic):
-    def __init__(self, bus, index, service):
+class NotificationAbleCharacteristic(Characteristic):
+    def __init__(self, bus, index, service, flags=['read', 'notify']):
         Characteristic.__init__(
             self, bus, index,
             self.return_uuid(),
-            ['read', 'notify'],
+            flags,
             service)
         self.notifying = False
 
@@ -228,7 +228,6 @@ class ReadAndNotificationCharacteristic(Characteristic):
 
     def notify_cb(self):
         logger.debug('notifying in read and notification characteristic')
-
         self.PropertiesChanged(GATT_CHRC_IFACE, {'Value': self.get_values()}, [])
         return self.notifying
 

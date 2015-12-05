@@ -17,7 +17,7 @@ def main(argv):
         print('Base exception received: %s' % str(e))
     finally:
         if dao is not None:
-            pass
+            dao.destroy()
 
 
 if __name__ == '__main__':

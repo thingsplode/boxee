@@ -1,5 +1,5 @@
 from binascii import unhexlify, hexlify
-from core import Service, Characteristic, ReadAndNotificationCharacteristic, CharacteristicUserDescriptionDescriptor
+from core import Service, Characteristic, NotificationAbleCharacteristic, CharacteristicUserDescriptionDescriptor
 import psutil
 import boxee, logging, struct, gobject, dbus, dbus.service
 from exceptions import NotSupportedException
@@ -25,9 +25,9 @@ class SystemService(Service):
         # self.add_characteristic(DiskDataChrc(bus, 4, self))
 
 
-class MemoryPercentageChrc(ReadAndNotificationCharacteristic):
+class MemoryPercentageChrc(NotificationAbleCharacteristic):
     def __init__(self, bus, index, service):
-        ReadAndNotificationCharacteristic.__init__(self, bus, index, service)
+        NotificationAbleCharacteristic.__init__(self, bus, index, service)
         self.add_descriptor(CharacteristicUserDescriptionDescriptor(bus, 1, self, "Memory Percentage"))
 
     def return_uuid(self):
@@ -39,12 +39,12 @@ class MemoryPercentageChrc(ReadAndNotificationCharacteristic):
         mem = psutil.virtual_memory()
         mem_percent_struct = struct.pack('!f', mem.percent)
         append_bytearray_to_array(values, mem_percent_struct)
-        logger.debug('memory percent [%s], hex bytes [%s], structure byte length: [%s]', mem_percent,
+        logger.debug('memory percent [%s], hex bytes [%s], structure byte length: [%s]', mem.percent,
                      hexlify(mem_percent_struct), len(mem_percent_struct))
         return values
 
 
-class MemoryDataChrc(ReadAndNotificationCharacteristic):
+class MemoryDataChrc(NotificationAbleCharacteristic):
     """
     TOTAL, AVAIL, PERCENT, USED, FREE
     Handles the virtual memory information
@@ -54,7 +54,7 @@ class MemoryDataChrc(ReadAndNotificationCharacteristic):
     """
 
     def __init__(self, bus, index, service):
-        ReadAndNotificationCharacteristic.__init__(self, bus, index, service)
+        NotificationAbleCharacteristic.__init__(self, bus, index, service)
         self.add_descriptor(CharacteristicUserDescriptionDescriptor(bus, 1, self, "Memory Data"))
 
     def return_uuid(self):
@@ -71,7 +71,7 @@ class MemoryDataChrc(ReadAndNotificationCharacteristic):
         return values
 
 
-class CpuPercentageChrc(ReadAndNotificationCharacteristic):
+class CpuPercentageChrc(NotificationAbleCharacteristic):
     """
         core 1: byte length
         core 1: percentage float (4 bytes)
@@ -81,7 +81,7 @@ class CpuPercentageChrc(ReadAndNotificationCharacteristic):
     """
 
     def __init__(self, bus, index, service):
-        ReadAndNotificationCharacteristic.__init__(self, bus, index, service)
+        NotificationAbleCharacteristic.__init__(self, bus, index, service)
         self.add_descriptor(CharacteristicUserDescriptionDescriptor(bus, 1, self, "CPU Percentage"))
 
     def return_uuid(self):
@@ -105,7 +105,7 @@ class CpuPercentageChrc(ReadAndNotificationCharacteristic):
             return values
 
 
-class CpuDataChrc(ReadAndNotificationCharacteristic):
+class CpuDataChrc(NotificationAbleCharacteristic):
     """
     Returns the CPU count and load:
         first byte: cpu count
@@ -117,7 +117,7 @@ class CpuDataChrc(ReadAndNotificationCharacteristic):
     """
 
     def __init__(self, bus, index, service):
-        ReadAndNotificationCharacteristic.__init__(self, bus, index, service)
+        NotificationAbleCharacteristic.__init__(self, bus, index, service)
         self.add_descriptor(CharacteristicUserDescriptionDescriptor(bus, 1, self, "CPU Data"))
 
     def return_uuid(self):
@@ -128,7 +128,7 @@ class CpuDataChrc(ReadAndNotificationCharacteristic):
         return values
 
 
-class DiskDataChrc(ReadAndNotificationCharacteristic):
+class DiskDataChrc(NotificationAbleCharacteristic):
     """
     1st byte: # of partitions
     2nd byte: mountpoint length
@@ -149,7 +149,7 @@ class DiskDataChrc(ReadAndNotificationCharacteristic):
     """
 
     def __init__(self, bus, index, service):
-        ReadAndNotificationCharacteristic.__init__(self, bus, index, service)
+        NotificationAbleCharacteristic.__init__(self, bus, index, service)
         self.add_descriptor(CharacteristicUserDescriptionDescriptor(bus, 1, self, "Disk Characteristic"))
 
     def return_uuid(self):
