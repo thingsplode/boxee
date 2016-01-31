@@ -1,6 +1,7 @@
 from binascii import unhexlify, hexlify
 from core import Service, Characteristic, NotificationAbleCharacteristic, CharacteristicUserDescriptionDescriptor
 import psutil
+import math
 import boxee, logging, struct, gobject, dbus, dbus.service
 from exceptions import NotSupportedException
 
@@ -37,11 +38,15 @@ class MemoryPercentageChrc(NotificationAbleCharacteristic):
         logger.debug('getting values in [%s]', __name__)
         values = []
         mem = psutil.virtual_memory()
-        mem_percent_struct = struct.pack('!f', mem.percent)
-        append_bytearray_to_array(values, mem_percent_struct)
-        logger.debug('memory percent [%s], hex bytes [%s], structure byte length: [%s]', mem.percent,
-                     hexlify(mem_percent_struct), len(mem_percent_struct))
-        return values
+        mem_percentage = bytes(int(math.floor(mem.percent)))[0]
+        logger.debug('providing memory percentage [%s]', mem_percentage)
+        # values.append(dbus.ByteArray(mem_percentage))
+        return dbus.ByteArray(mem_percentage)
+        # mem_percent_struct = struct.pack('!f', mem.percent)
+        # append_bytearray_to_array(values, mem_percent_struct)
+        # logger.debug('memory percent [%s], hex bytes [%s], structure byte length: [%s]', mem.percent,
+        #              hexlify(mem_percent_struct), len(mem_percent_struct))
+        # return values
 
 
 class MemoryDataChrc(NotificationAbleCharacteristic):
@@ -91,18 +96,22 @@ class CpuPercentageChrc(NotificationAbleCharacteristic):
         logger.debug('getting values in [%s]', type(self).__name__)
         values = []
         try:
-            for cpu_percent in psutil.cpu_percent(1, True):
-                cpu_percent_struct = struct.pack('!f', cpu_percent)
-                cpu_percent_struct_byte_length = len(cpu_percent_struct)
-                values.append(dbus.Byte(cpu_percent_struct_byte_length))
-                append_bytearray_to_array(values, cpu_percent_struct)
-                logger.debug('cpu percent [%s], hex bytes [%s], structure byte length: [%s]', cpu_percent,
-                             hexlify(cpu_percent_struct), cpu_percent_struct_byte_length)
+            cpu_percentage = bytes(int(math.floor(psutil.cpu_percent(1, False))))[0]
+            logger.debug('Providing cpu percentage [%s]', cpu_percentage)
+            return dbus.Byte(cpu_percentage)
+            # for cpu_percent in psutil.cpu_percent(1, True):
+            #     cpu_percent_struct = struct.pack('!f', cpu_percent)
+            #     cpu_percent_struct_byte_length = len(cpu_percent_struct)
+            #     values.append(dbus.Byte(cpu_percent_struct_byte_length))
+            #     append_bytearray_to_array(values, cpu_percent_struct)
+            #     logger.debug('cpu percent [%s], hex bytes [%s], structure byte length: [%s]', cpu_percent,
+            #                  hexlify(cpu_percent_struct), cpu_percent_struct_byte_length)
         except BaseException as e:
             logger.error('General error in [%s]: %s', type(self).__name__, str(e))
         finally:
-            logger.debug('returning byte array of size: [%s] and raw value: [%s]', len(values), repr(values))
-            return values
+            # logger.debug('returning byte array of size: [%s] and raw value: [%s]', len(values), repr(values))
+            # return values
+            pass
 
 
 class CpuDataChrc(NotificationAbleCharacteristic):

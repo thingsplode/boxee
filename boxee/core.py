@@ -195,7 +195,7 @@ class Characteristic(dbus.service.Object):
 
     @dbus.service.signal(DBUS_PROP_IFACE,
                          signature='sa{sv}as')
-    def PropertiesChanged(self, interface, changed, invalidated):
+    def qPropertiesChanged(self, interface, changed, invalidated):
         """
             Fires a property changed signal to the dbus
             :param interface: the GATT Characteristics Interface (org.bluez.GattCharacteristic1)

@@ -62,8 +62,9 @@ sudo apt-get install tmux libusb-dev libdbus-1-dev libglib2.0-dev libudev-dev li
 sudo mkdir bluez
 cd bluez
 
-sudo wget https://www.kernel.org/pub/linux/bluetooth/bluez-5.34.tar.gz
-sudo tar xvf bluez-5.11.tar
+sudo wget https://www.kernel.org/pub/linux/bluetooth/bluez-5.36.tar.gz
+sudo tar xvf bluez-5.36.tar
+cd bluez-5.36/
 sudo rfkill unblock all
 
 LDFLAGS=-lrt
@@ -74,7 +75,7 @@ sudo make
 sudo make install
 ```
 
-Then you need to edit /lib/systemd/system/bluetooth.service and add *-nE** to the bluetoothd. This will enables to start the experimental features of the bluetooth daemon.
+Then you need to edit /lib/systemd/system/bluetooth.service and add **-nE** to the bluetoothd. This will enable to start the experimental features of the bluetooth daemon.
 
 Create a link in: /etc/systemd/system
 ```
@@ -85,6 +86,19 @@ Than
 systemctl --system daemon-reload
 systemctl restart bluetooth.service
 ```
+
+## Monitoring bluez activities
+
+**For low level happenings**
+```bash
+btmon
+```
+
+## bluetoothctl
+ * list known devices: 'devices'
+ * list all bluetooth controllers: 'list'
+ * show bluetooth controller details: 'show'
+ 
 
 ## Hints and tricks
 You can connect to BLE enbaled devices by using:
@@ -119,6 +133,17 @@ apt-get install python-psutil python3-psutil
 
 ## Further reading
 * Very good general presentation: http://www.slideshare.net/yeokm1/introduction-to-bluetooth-low-energy
+
+## Running and monitoring the app
+```bash
+python /tmp/boxee/boxee.py -d
+tail -fn 300 /var/log/syslog
+```
+And if you'd like to check the status of the database: 
+```bash
+sqlite3 /tmp/boxee/boxee.db 
+sqlite> select * from locker;
+```
 
 
 

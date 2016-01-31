@@ -47,7 +47,7 @@ class GpioConnector:
         """
         logger.debug('setting channel [%s] to HIGH', slot_id)
         GPIO.output(slot_id, GPIO.HIGH)
-        gobject.timeout_add(1000, self.close_slot, slot_id)
+        gobject.timeout_add(3000, self.close_slot, slot_id)
 
     @staticmethod
     def close_slot(slot_id):

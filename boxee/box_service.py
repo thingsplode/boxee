@@ -168,6 +168,7 @@ class ParcelReleaseCharacteristic(ParcelCharacteristic):
     def write_action(self, value):
         try:
             res = self.box_manager.release_parcel("".join(map(chr, value)))
+            print ('notification results: %s and %s ', res[0], res[1])
             self.notify(res[0], res[1])
         except BaseException as e:
             logger.error('notification failed during write due to: %s', str(e))

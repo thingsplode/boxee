@@ -321,7 +321,7 @@ def main(argv):
         usage()
         sys.exit(2)
     except BaseException as e:
-        print('Base exception received: %s' % str(e))
+        print('Base exception received: {%s}' % str(e))
     finally:
         if boxee_server is not None:
             boxee_server.stop_server()
